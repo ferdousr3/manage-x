@@ -1,0 +1,68 @@
+import { createRoute, z } from '@hono/zod-openapi'
+import { OK, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
+import type { AppRouteHandler } from '../../../core/core.type'
+import { zEmptyList } from '../../../core/models/common.schema'
+import { ApiPaginatedResponse } from '../../../core/utils/api-response.util'
+import { zSelectProduct } from '../products.schema'
+import { findManyProducts, countProducts } from '../products.service'
+
+export const getProductsRoute = createRoute({
+   path: '/api/v1/products',
+   method: 'get',
+   tags: ['Products'],
+   // Public route - no auth required
+   request: {
+      query: z.object({
+         search: z.string().optional(),
+         page: z.coerce.number().optional().default(1),
+         size: z.coerce.number().optional().default(10),
+         minPrice: z.coerce.number().optional(),
+         maxPrice: z.coerce.number().optional(),
+      }),
+   },
+   responses: {
+      [OK]: ApiPaginatedResponse(zSelectProduct, 'List of Products'),
+      [INTERNAL_SERVER_ERROR]: ApiPaginatedResponse(zEmptyList, 'Internal server error'),
+   },
+})
+
+export const getProductsHandler: AppRouteHandler<typeof getProductsRoute> = async (c) => {
+   try {
+      const { search, page, size, minPrice, maxPrice } = c.req.valid('query')
+
+      const pageNumber = page || 1
+      const limitNumber = size || 10
+
+      const data = await findManyProducts(
+         { search, minPrice, maxPrice },
+         limitNumber,
+         (pageNumber - 1) * limitNumber
+      )
+
+      const total = await countProducts({ search, minPrice, maxPrice })
+
+      return c.json(
+         {
+            data,
+            pagination: {
+               page: pageNumber,
+               size: limitNumber,
+               total,
+            },
+            message: 'Product list',
+            success: true,
+         },
+         OK
+      )
+   } catch (error) {
+      return c.json(
+         {
+            data: [],
+            pagination: { page: 1, size: 10, total: 0 },
+            message: 'Internal server error',
+            success: false,
+         },
+         INTERNAL_SERVER_ERROR
+      )
+   }
+}
