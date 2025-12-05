@@ -16,7 +16,7 @@ export const onErrorFn = (): ErrorHandler<AppBindings> => {
                ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
             },
          },
-         statusCode as number
+         statusCode as 400 | 401 | 403 | 404 | 409 | 422 | 500
       )
    }
 }
