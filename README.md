@@ -796,17 +796,104 @@ pnpm lint
 
 ## 🚀 Deployment
 
-### Vercel
+### Netlify
 
-1. Push your code to GitHub
-2. Connect repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy!
+This API is configured for deployment on Netlify using serverless functions.
+
+#### Prerequisites
+
+- Netlify account
+- Netlify CLI (optional, for CLI deployment)
+
+#### Deploy via Netlify Dashboard
+
+1. **Push your code to GitHub**
+   ```bash
+   git add .
+   git commit -m "Prepare for Netlify deployment"
+   git push origin main
+   ```
+
+2. **Connect to Netlify**
+   - Go to [Netlify Dashboard](https://app.netlify.com)
+   - Click "Add new site" → "Import an existing project"
+   - Connect your Git provider and select the repository
+
+3. **Configure Build Settings**
+   - Build command: `npm run build`
+   - Functions directory: `netlify/functions`
+   - Node version: 22 (automatically detected from `.nvmrc`)
+
+4. **Add Environment Variables**
+   Go to Site settings → Environment variables and add:
+   - `DATABASE_URL`
+   - `ACCESS_TOKEN_SECRET`
+   - `REFRESH_TOKEN_SECRET`
+   - `EMAIL_RESEND_API_KEY`
+   - `EMAIL_SENDER_EMAIL`
+   - `FRONTEND_URL`
+   - `NODE_ENV=production`
+
+5. **Deploy!**
+   - Click "Deploy site"
+   - Your API will be available at `https://your-site-name.netlify.app`
+
+#### Deploy via Netlify CLI
 
 ```bash
-# Or deploy via CLI
-npx vercel
+# Install Netlify CLI globally
+npm install -g netlify-cli
+
+# Login to Netlify
+netlify login
+
+# Initialize site (first time only)
+netlify init
+
+# Set environment variables
+netlify env:set DATABASE_URL "your-database-url"
+netlify env:set ACCESS_TOKEN_SECRET "your-secret"
+netlify env:set REFRESH_TOKEN_SECRET "your-refresh-secret"
+netlify env:set EMAIL_RESEND_API_KEY "your-resend-key"
+netlify env:set EMAIL_SENDER_EMAIL "noreply@yourdomain.com"
+netlify env:set FRONTEND_URL "https://your-frontend.netlify.app"
+netlify env:set NODE_ENV "production"
+
+# Deploy to production
+netlify deploy --prod
 ```
+
+#### Testing Your Deployment
+
+After deployment, test your API:
+
+```bash
+# Root endpoint (should show "Server Running" page)
+curl https://your-site-name.netlify.app
+
+# Health check
+curl https://your-site-name.netlify.app/health
+
+# API documentation
+# Visit: https://your-site-name.netlify.app/docs
+```
+
+#### Troubleshooting
+
+**Build fails:**
+- Check that Node version 22 is specified in `.nvmrc`
+- Verify all dependencies are in `package.json`
+- Check build logs in Netlify dashboard
+
+**Function errors:**
+- Verify environment variables are set correctly
+- Check function logs in Netlify dashboard
+- Ensure database is accessible from Netlify's servers
+
+**CORS issues:**
+- Update `FRONTEND_URL` environment variable with your frontend domain
+- Redeploy after changing environment variables
+
 
 ### Docker
 

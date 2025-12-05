@@ -1,11 +1,11 @@
+import type { Context } from '@netlify/functions'
 import 'dotenv/config'
-import { handle } from 'hono/vercel'
 
 let app: any
 
 try {
-   // Dynamic import to catch any initialization errors
-   const appModule = await import('../src/app')
+   // Import the Hono app from source
+   const appModule = await import('../../src/app')
    app = appModule.default
 } catch (error) {
    console.error('Failed to initialize app:', error)
@@ -20,5 +20,7 @@ try {
    })
 }
 
-// Export for Vercel Serverless Functions
-export default handle(app)
+// Netlify serverless function handler
+export default async (request: Request, context: Context) => {
+   return await app.fetch(request)
+}
