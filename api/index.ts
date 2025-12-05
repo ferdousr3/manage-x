@@ -5,7 +5,7 @@ let app: any
 
 try {
    // Dynamic import to catch any initialization errors
-   const appModule = await import('../dist/app.js')
+   const appModule = await import('../src/app')
    app = appModule.default
 } catch (error) {
    console.error('Failed to initialize app:', error)
