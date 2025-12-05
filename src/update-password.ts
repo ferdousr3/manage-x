@@ -5,8 +5,8 @@ import { usersTable } from './core/db/schema'
 import { eq } from 'drizzle-orm'
 
 async function updatePassword() {
-   const email = 'ferdousr1992@gmail.com'
-   const newPassword = 'Abcd1234!'
+   const email = ''
+   const newPassword = ''
    const hashedPassword = await bcrypt.hash(newPassword, 12)
 
    console.log(`Updating password for ${email}...`)
@@ -16,7 +16,6 @@ async function updatePassword() {
       .set({ password: hashedPassword })
       .where(eq(usersTable.email, email))
 
-   console.log('Password updated successfully!')
    process.exit(0)
 }
 
