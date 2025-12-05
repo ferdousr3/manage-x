@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm'
-import * as argon2 from 'argon2'
+import bcrypt from 'bcryptjs'
 import { db } from '../../core/db/db'
 import { usersTable } from '../../core/db/schema'
 import {
@@ -36,7 +36,7 @@ export async function createUser(data: {
    firstName: string
    lastName: string
 }) {
-   const hashedPassword = await argon2.hash(data.password)
+   const hashedPassword = await bcrypt.hash(data.password, 12)
 
    const [user] = await db
       .insert(usersTable)
@@ -52,11 +52,11 @@ export async function createUser(data: {
 }
 
 export async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
-   return await argon2.verify(hashedPassword, password)
+   return await bcrypt.compare(password, hashedPassword)
 }
 
 export async function updatePassword(userId: string, newPassword: string) {
-   const hashedPassword = await argon2.hash(newPassword)
+   const hashedPassword = await bcrypt.hash(newPassword, 12)
 
    await db
       .update(usersTable)
