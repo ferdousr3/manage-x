@@ -2,13 +2,16 @@ import { config } from 'dotenv'
 import { expand } from 'dotenv-expand'
 import { z } from 'zod'
 
-expand(config())
+// Only load from .env file in development (Vercel provides env vars directly)
+if (process.env.NODE_ENV !== 'production') {
+   expand(config())
+}
 
 const EnvSchema = z.object({
    NODE_ENV: z.string().default('development'),
    PORT: z.coerce.number().default(3000),
    DATABASE_URL: z.string(),
-   DB_MODE: z.enum(['pg', 'neon']).default('pg'),
+   DB_MODE: z.enum(['pg', 'neon']).default('neon'),
    FRONTEND_URL: z.string().default('http://localhost:5173'),
    BACKEND_URL: z.string().default('http://localhost:3000'),
    ACCESS_TOKEN_SECRET: z.string().min(32),
@@ -20,17 +23,15 @@ const EnvSchema = z.object({
 
 export type TEnv = z.infer<typeof EnvSchema>
 
-let env: TEnv
-
-try {
-   env = EnvSchema.parse(process.env)
-} catch (error) {
-   if (error instanceof z.ZodError) {
-      console.error('❌ Invalid environment variables:')
-      console.error(error.flatten().fieldErrors)
-      process.exit(1)
+const parseEnv = (): TEnv => {
+   const result = EnvSchema.safeParse(process.env)
+   if (!result.success) {
+      console.error('❌ Invalid environment variables:', result.error.flatten().fieldErrors)
+      throw new Error('Invalid environment variables')
    }
-   throw error
+   return result.data
 }
+
+const env = parseEnv()
 
 export default env
