@@ -13,6 +13,8 @@ import { logger } from './logger'
 import { onErrorFn } from './on-error'
 import { notFoundFn } from './on-not-found'
 
+const isVercel = process.env.VERCEL === '1'
+
 export function createRouter() {
    return new OpenAPIHono<AppBindings>({ strict: false, defaultHook })
 }
@@ -37,7 +39,11 @@ export default function createApp() {
    app.use(poweredBy())
    app.use(secureHeaders())
    app.use(cors())
-   app.use(compress())
+
+   // Disable compression on Vercel (can cause streaming issues)
+   if (!isVercel) {
+      app.use(compress())
+   }
 
    // Error handlers
    app.notFound(notFoundFn)
