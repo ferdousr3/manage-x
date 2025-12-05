@@ -4,7 +4,6 @@ import { pino, stdTimeFunctions } from 'pino'
 import env from '../env'
 
 const isProduction = env.NODE_ENV === 'production'
-const isNetlify = process.env.NETLIFY === 'true' || process.env.CONTEXT !== undefined
 
 // Custom logger middleware with request/response logging
 export const customLogger = () => {
@@ -33,17 +32,6 @@ export const customLogger = () => {
          redact: {
             paths: ['req.headers.authorization'],
          },
-         // Only use pino-pretty in local development (not in Netlify or production)
-         transport: isProduction || isNetlify
-            ? undefined
-            : {
-               target: 'pino-pretty',
-               options: {
-                  colorize: true,
-                  translateTime: 'SYS:standard',
-                  ignore: 'pid,hostname',
-               },
-            },
          timestamp: stdTimeFunctions.epochTime,
       }),
    })
@@ -52,16 +40,6 @@ export const customLogger = () => {
 // Export base logger for non-HTTP contexts
 export const logger = pino({
    level: process.env.LOG_LEVEL || 'info',
-   transport: isProduction || isNetlify
-      ? undefined
-      : {
-         target: 'pino-pretty',
-         options: {
-            colorize: true,
-            translateTime: 'SYS:standard',
-            ignore: 'pid,hostname',
-         },
-      },
    timestamp: stdTimeFunctions.epochTime,
 })
 
