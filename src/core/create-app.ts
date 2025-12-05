@@ -1,5 +1,4 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { pinoLogger } from 'hono-pino'
 import { compress } from 'hono/compress'
 import { cors } from 'hono/cors'
 import { poweredBy } from 'hono/powered-by'
@@ -9,7 +8,7 @@ import { trimTrailingSlash } from 'hono/trailing-slash'
 import { serveEmojiFavicon } from 'stoker/middlewares'
 import { defaultHook } from 'stoker/openapi'
 import type { AppBindings } from './core.type'
-import { logger } from './logger'
+import { customLogger } from './logger'
 import { onErrorFn } from './on-error'
 import { notFoundFn } from './on-not-found'
 
@@ -24,14 +23,7 @@ export default function createApp() {
 
    // Request ID and logging
    app.use('*', requestId())
-   app.use(
-      pinoLogger({
-         pino: logger,
-         http: {
-            reqId: () => crypto.randomUUID(),
-         },
-      })
-   )
+   app.use('*', customLogger())
 
    // Standard middlewares
    app.use(serveEmojiFavicon('🚀'))
