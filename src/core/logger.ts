@@ -1,19 +1,23 @@
 import pino from 'pino'
 
 const isProduction = process.env.NODE_ENV === 'production'
+const isVercel = process.env.VERCEL === '1'
 
+// On Vercel/production, use simple JSON logging (no pino-pretty)
 export const logger = pino({
    level: process.env.LOG_LEVEL || 'info',
-   transport: isProduction
-      ? undefined
-      : {
-           target: 'pino-pretty',
-           options: {
-              colorize: true,
-              translateTime: 'SYS:standard',
-              ignore: 'pid,hostname',
-           },
-        },
+   // Only use pino-pretty in local development
+   transport:
+      !isProduction && !isVercel
+         ? {
+            target: 'pino-pretty',
+            options: {
+               colorize: true,
+               translateTime: 'SYS:standard',
+               ignore: 'pid,hostname',
+            },
+         }
+         : undefined,
 })
 
 // Create child loggers for different modules
