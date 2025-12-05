@@ -2,13 +2,15 @@ import pino from 'pino'
 
 const isProduction = process.env.NODE_ENV === 'production'
 const isVercel = process.env.VERCEL === '1'
+const isNetlify = process.env.NETLIFY === 'true' || process.env.CONTEXT !== undefined
 
-// On Vercel/production, use simple JSON logging (no pino-pretty)
+// In serverless environments (Vercel/Netlify) or production, use simple JSON logging
+// pino-pretty doesn't work in serverless functions due to transport limitations
 export const logger = pino({
    level: process.env.LOG_LEVEL || 'info',
-   // Only use pino-pretty in local development
+   // Only use pino-pretty in local development (not in serverless or production)
    transport:
-      !isProduction && !isVercel
+      !isProduction && !isVercel && !isNetlify
          ? {
             target: 'pino-pretty',
             options: {
