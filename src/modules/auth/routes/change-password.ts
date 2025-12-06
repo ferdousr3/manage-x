@@ -9,7 +9,7 @@ import { zChangePassword } from '../auth.schema'
 import { changePassword } from '../auth.service'
 
 export const changePasswordRoute = createRoute({
-   path: '/api/v1/auth/change-password',
+   path: '/v1/auth/change-password',
    method: 'post',
    tags: ['Authentication'],
    description: 'Change password for authenticated user',

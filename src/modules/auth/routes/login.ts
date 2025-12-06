@@ -8,7 +8,7 @@ import { zLogin, AuthResponseSchema } from '../auth.schema'
 import { loginUser } from '../auth.service'
 
 export const loginRoute = createRoute({
-   path: '/api/v1/auth/login',
+   path: '/v1/auth/login',
    method: 'post',
    tags: ['Authentication'],
    description: 'Login with email and password',

@@ -9,7 +9,7 @@ import { zInsertClient, zSelectClient } from '../clients.schema'
 import { createClient } from '../clients.service'
 
 export const createClientRoute = createRoute({
-   path: '/api/v1/clients',
+   path: '/v1/clients',
    method: 'post',
    tags: ['Clients'],
    middleware: [checkToken] as const,

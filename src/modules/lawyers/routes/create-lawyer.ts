@@ -9,7 +9,7 @@ import { zInsertLawyer, zSelectLawyer } from '../lawyers.schema'
 import { createLawyer } from '../lawyers.service'
 
 export const createLawyerRoute = createRoute({
-   path: '/api/v1/lawyers',
+   path: '/v1/lawyers',
    method: 'post',
    tags: ['Lawyers'],
    middleware: [checkToken] as const,

@@ -8,7 +8,7 @@ import { zResetPassword } from '../auth.schema'
 import { resetPassword } from '../auth.service'
 
 export const resetPasswordRoute = createRoute({
-   path: '/api/v1/auth/reset-password',
+   path: '/v1/auth/reset-password',
    method: 'post',
    tags: ['Authentication'],
    description: 'Reset password using token',

@@ -9,7 +9,7 @@ import { zSelectClient, zUpdateClient } from '../clients.schema'
 import { findClientById, updateClient } from '../clients.service'
 
 export const updateClientRoute = createRoute({
-   path: '/api/v1/clients/{id}',
+   path: '/v1/clients/{id}',
    method: 'patch',
    tags: ['Clients'],
    middleware: [checkToken] as const,

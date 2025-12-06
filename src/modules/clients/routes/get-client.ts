@@ -8,7 +8,7 @@ import { zSelectClient } from '../clients.schema'
 import { findClientById } from '../clients.service'
 
 export const getClientRoute = createRoute({
-   path: '/api/v1/clients/{id}',
+   path: '/v1/clients/{id}',
    method: 'get',
    tags: ['Clients'],
    middleware: [checkToken] as const,

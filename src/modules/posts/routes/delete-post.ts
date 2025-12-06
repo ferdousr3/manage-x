@@ -7,7 +7,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { findPostById, deletePost } from '../posts.service'
 
 export const deletePostRoute = createRoute({
-   path: '/api/v1/posts/{id}',
+   path: '/v1/posts/{id}',
    method: 'delete',
    tags: ['Posts'],
    middleware: [checkToken] as const,

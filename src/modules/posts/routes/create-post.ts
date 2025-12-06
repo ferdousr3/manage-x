@@ -9,7 +9,7 @@ import { zInsertPost, zSelectPost } from '../posts.schema'
 import { createPost } from '../posts.service'
 
 export const createPostRoute = createRoute({
-   path: '/api/v1/posts',
+   path: '/v1/posts',
    method: 'post',
    tags: ['Posts'],
    middleware: [checkToken] as const,

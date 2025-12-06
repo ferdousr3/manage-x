@@ -8,7 +8,7 @@ import { zSelectNote } from '../notes.schema'
 import { findNoteById, deleteNote } from '../notes.service'
 
 export const deleteNoteRoute = createRoute({
-   path: '/api/v1/notes/{id}',
+   path: '/v1/notes/{id}',
    method: 'delete',
    tags: ['Notes'],
    middleware: [checkToken] as const,

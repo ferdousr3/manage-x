@@ -7,7 +7,7 @@ import { zSelectLawyer } from '../lawyers.schema'
 import { findManyLawyers, countLawyers } from '../lawyers.service'
 
 export const getLawyersRoute = createRoute({
-   path: '/api/v1/lawyers',
+   path: '/v1/lawyers',
    method: 'get',
    tags: ['Lawyers'],
    // Public route - no auth required

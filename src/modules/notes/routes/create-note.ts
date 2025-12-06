@@ -9,7 +9,7 @@ import { zInsertNote, zSelectNote } from '../notes.schema'
 import { createNote } from '../notes.service'
 
 export const createNoteRoute = createRoute({
-   path: '/api/v1/notes',
+   path: '/v1/notes',
    method: 'post',
    tags: ['Notes'],
    middleware: [checkToken] as const,

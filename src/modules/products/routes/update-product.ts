@@ -9,7 +9,7 @@ import { zSelectProduct, zUpdateProduct } from '../products.schema'
 import { findProductById, updateProduct } from '../products.service'
 
 export const updateProductRoute = createRoute({
-   path: '/api/v1/products/{id}',
+   path: '/v1/products/{id}',
    method: 'patch',
    tags: ['Products'],
    middleware: [checkToken] as const,

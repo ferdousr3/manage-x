@@ -7,7 +7,7 @@ import { zSelectProduct } from '../products.schema'
 import { findManyProducts, countProducts } from '../products.service'
 
 export const getProductsRoute = createRoute({
-   path: '/api/v1/products',
+   path: '/v1/products',
    method: 'get',
    tags: ['Products'],
    // Public route - no auth required

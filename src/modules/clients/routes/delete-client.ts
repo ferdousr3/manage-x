@@ -7,7 +7,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { findClientById, deleteClient } from '../clients.service'
 
 export const deleteClientRoute = createRoute({
-   path: '/api/v1/clients/{id}',
+   path: '/v1/clients/{id}',
    method: 'delete',
    tags: ['Clients'],
    middleware: [checkToken] as const,

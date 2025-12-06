@@ -8,7 +8,7 @@ import { zSelectNote } from '../notes.schema'
 import { findNoteById } from '../notes.service'
 
 export const getNoteRoute = createRoute({
-   path: '/api/v1/notes/{id}',
+   path: '/v1/notes/{id}',
    method: 'get',
    tags: ['Notes'],
    middleware: [checkToken] as const,

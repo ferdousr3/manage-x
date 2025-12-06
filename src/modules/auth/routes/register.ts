@@ -8,7 +8,7 @@ import { zRegister, UserResponseSchema } from '../auth.schema'
 import { registerUser } from '../auth.service'
 
 export const registerRoute = createRoute({
-   path: '/api/v1/auth/register',
+   path: '/v1/auth/register',
    method: 'post',
    tags: ['Authentication'],
    description: 'Register a new account',

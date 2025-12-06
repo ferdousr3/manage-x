@@ -9,7 +9,7 @@ import { zSelectPost, zUpdatePost } from '../posts.schema'
 import { findPostById, updatePost } from '../posts.service'
 
 export const updatePostRoute = createRoute({
-   path: '/api/v1/posts/{id}',
+   path: '/v1/posts/{id}',
    method: 'patch',
    tags: ['Posts'],
    middleware: [checkToken] as const,

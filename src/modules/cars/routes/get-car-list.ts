@@ -3,48 +3,41 @@ import { OK, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import type { AppRouteHandler } from '../../../core/core.type'
 import { zEmptyList } from '../../../core/models/common.schema'
 import { ApiPaginatedResponse } from '../../../core/utils/api-response.util'
-import { zSelectPost } from '../posts.schema'
-import { findManyPosts, countPosts } from '../posts.service'
+import { zSelectCar } from '../cars.schema'
+import { findManyCars, countCars } from '../cars.service'
 
-export const getPostsRoute = createRoute({
-   path: '/v1/posts',
+export const getCarsRoute = createRoute({
+   path: '/v1/cars',
    method: 'get',
-   tags: ['Posts'],
-   // Public route - no auth required
+   tags: ['Cars'],
    request: {
       query: z.object({
          search: z.string().optional(),
+         brand: z.string().optional(),
          page: z.coerce.number().optional().default(1),
          size: z.coerce.number().optional().default(10),
-         published: z.enum(['true', 'false']).optional(),
       }),
    },
    responses: {
-      [OK]: ApiPaginatedResponse(zSelectPost, 'List of Posts'),
+      [OK]: ApiPaginatedResponse(zSelectCar, 'List of Cars'),
       [INTERNAL_SERVER_ERROR]: ApiPaginatedResponse(zEmptyList, 'Internal server error'),
    },
 })
 
-export const getPostsHandler: AppRouteHandler<typeof getPostsRoute> = async (c) => {
+export const getCarsHandler: AppRouteHandler<typeof getCarsRoute> = async (c) => {
    try {
-      const { search, page, size, published } = c.req.valid('query')
+      const { search, brand, page, size } = c.req.valid('query')
 
       const pageNumber = page || 1
       const limitNumber = size || 10
 
-      const data = await findManyPosts(
-         {
-            search,
-            published: published ? published === 'true' : undefined
-         },
+      const data = await findManyCars(
+         { search, brand },
          limitNumber,
          (pageNumber - 1) * limitNumber
       )
 
-      const total = await countPosts({
-         search,
-         published: published ? published === 'true' : undefined
-      })
+      const total = await countCars({ search, brand })
 
       return c.json(
          {
@@ -54,7 +47,7 @@ export const getPostsHandler: AppRouteHandler<typeof getPostsRoute> = async (c) 
                size: limitNumber,
                total,
             },
-            message: 'Post list',
+            message: 'Car list',
             success: true,
          },
          OK

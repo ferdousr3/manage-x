@@ -19,6 +19,7 @@ const EnvSchema = z.object({
    EMAIL_RESEND_API_KEY: z.string().optional(),
    EMAIL_SENDER_NAME: z.string().default('Manage-X'),
    EMAIL_SENDER_EMAIL: z.string().email().optional(),
+   IMGBB_API_KEY: z.string().optional(),
 })
 
 export type TEnv = z.infer<typeof EnvSchema>

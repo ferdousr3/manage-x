@@ -9,7 +9,7 @@ import { zSelectGroup, zUpdateGroup } from '../groups.schema'
 import { findGroupById, updateGroup } from '../groups.service'
 
 export const updateGroupRoute = createRoute({
-   path: '/api/v1/groups/{id}',
+   path: '/v1/groups/{id}',
    method: 'patch',
    tags: ['Groups'],
    middleware: [checkToken] as const,

@@ -8,7 +8,7 @@ import { zForgotPassword } from '../auth.schema'
 import { requestPasswordReset } from '../auth.service'
 
 export const forgotPasswordRoute = createRoute({
-   path: '/api/v1/auth/forgot-password',
+   path: '/v1/auth/forgot-password',
    method: 'post',
    tags: ['Authentication'],
    description: 'Request password reset email',

@@ -8,7 +8,7 @@ import { zSelectNote } from '../notes.schema'
 import { findManyNotes, countNotes } from '../notes.service'
 
 export const getNotesRoute = createRoute({
-   path: '/api/v1/notes',
+   path: '/v1/notes',
    method: 'get',
    tags: ['Notes'],
    middleware: [checkToken] as const,

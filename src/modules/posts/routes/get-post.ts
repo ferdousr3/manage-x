@@ -7,7 +7,7 @@ import { zSelectPost } from '../posts.schema'
 import { findPostById } from '../posts.service'
 
 export const getPostRoute = createRoute({
-   path: '/api/v1/posts/{id}',
+   path: '/v1/posts/{id}',
    method: 'get',
    tags: ['Posts'],
    // Public route - no auth required

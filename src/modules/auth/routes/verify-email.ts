@@ -7,7 +7,7 @@ import { zVerifyEmail } from '../auth.schema'
 import { verifyEmailToken } from '../auth.service'
 
 export const verifyEmailRoute = createRoute({
-   path: '/api/v1/auth/verify-email',
+   path: '/v1/auth/verify-email',
    method: 'get',
    tags: ['Authentication'],
    description: 'Verify email with token',

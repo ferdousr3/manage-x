@@ -8,7 +8,7 @@ import { zSelectLawyer } from '../lawyers.schema'
 import { findLawyerById, deleteLawyer } from '../lawyers.service'
 
 export const deleteLawyerRoute = createRoute({
-   path: '/api/v1/lawyers/{id}',
+   path: '/v1/lawyers/{id}',
    method: 'delete',
    tags: ['Lawyers'],
    middleware: [checkToken] as const,

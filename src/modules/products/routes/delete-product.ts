@@ -7,7 +7,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { findProductById, deleteProduct } from '../products.service'
 
 export const deleteProductRoute = createRoute({
-   path: '/api/v1/products/{id}',
+   path: '/v1/products/{id}',
    method: 'delete',
    tags: ['Products'],
    middleware: [checkToken] as const,

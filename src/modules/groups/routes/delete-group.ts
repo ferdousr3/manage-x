@@ -7,7 +7,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { findGroupById, deleteGroup } from '../groups.service'
 
 export const deleteGroupRoute = createRoute({
-   path: '/api/v1/groups/{id}',
+   path: '/v1/groups/{id}',
    method: 'delete',
    tags: ['Groups'],
    middleware: [checkToken] as const,

@@ -14,7 +14,7 @@ const TokensSchema = z.object({
 })
 
 export const refreshTokenRoute = createRoute({
-   path: '/api/v1/auth/refresh-token',
+   path: '/v1/auth/refresh-token',
    method: 'post',
    tags: ['Authentication'],
    description: 'Refresh access token',
